@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayşenur's Library & Glossary Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #121513;
+            --bg-secondary: #1a1e1b;
+            --bg-card: #232824;
+            --border-color: #313832;
+            --text-main: #e2e8e4;
+            --text-muted: #9aa39c;
+            --accent: #7c9082;
+            --accent-hover: #93a899;
+            --danger: #a86b6b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: #f1f5f2;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        button, .file-btn {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5frem;
+        }
+
+        button:hover, .file-btn:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: #121513;
+        }
+
+        button.primary {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: #121513;
+            font-weight: 500;
+        }
+
+        button.primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-family: 'Cormorant Garamond', serif;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--text-main);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .delete-btn:hover {
+            text-decoration: underline;
+            background: none;
+            color: var(--danger);
+        }
+
+        .form-container {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Library & Glossary Archive</h1>
+            <div class="actions">
+                <button onclick="exportData()" title="Save backup to your device">Save / Export JSON</button>
+                <label class="file-btn" style="cursor: pointer;">
+                    Load Backup <input type="file" id="importFile" accept=".json" onchange="importData(event)">
+                </label>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('books')">Books Library</button>
+            <button class="tab-btn" onclick="switchTab('glossary')">Glossary & Etymology</button>
+        </div>
+
+        <!-- BOOKS TAB -->
+        <div id="books-tab" class="tab-content active">
+            <div class="form-container">
+                <h3 style="font-family: 'Cormorant Garamond', serif; margin-bottom: 1rem;">Add New Book</h3>
+                <div class="form-group">
+                    <label>Book Title</label>
+                    <input type="text" id="bookTitle" placeholder="e.g., Rüzgar İçin Sözler">
+                </div>
+                <div class="form-group">
+                    <label>Author / Translator</label>
+                    <input type="text" id="bookAuthor" placeholder="e.g., Theodore Roethke">
+                </div>
+                <div class="form-group">
+                    <label>Notes & Reflections</label>
+                    <textarea id="bookNotes" rows="3" placeholder="Enter notes or translation annotations..."></textarea>
+                </div>
+                <button class="primary" onclick="addBook()">Add Book</button>
+            </div>
+
+            <div id="booksGrid" class="card-grid"></div>
+        </div>
+
+        <!-- GLOSSARY TAB -->
+        <div id="glossary-tab" class="tab-content">
+            <div class="form-container">
+                <h3 style="font-family: 'Cormorant Garamond', serif; margin-bottom: 1rem;">Add Glossary Term</h3>
+                <div class="form-group">
+                    <label>Term / Root</label>
+                    <input type="text" id="termWord" placeholder="e.g., Mor / Morphogenesis">
+                </div>
+                <div class="form-group">
+                    <label>Definition & Etymology</label>
+                    <textarea id="termDefinition" rows="3" placeholder="Enter etymological roots and semantic shifts..."></textarea>
+                </div>
+                <button class="primary" onclick="addTerm()">Add Term</button>
+            </div>
+
+            <div id="glossaryGrid" class="card-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        // State Initialization with localStorage persistence
+        let books = JSON.parse(localStorage.getItem('ayshenur_library_books')) || [
+            { id: 1, title: "Rüzgar İçin Sözler", author: "Theodore Roethke", notes: "Complete poetic works translation published by Yapı Kredi Yayınları." },
+            { id: 2, title: "Gods of Want (Arzunun Tanrıları)", author: "K-Ming Chang", notes: "Short story collection translation for Livera Yayınevi." }
+        ];
+
+        let glossaries = JSON.parse(localStorage.getItem('ayshenur_library_glossaries')) || [
+            { id: 1, word: "Morphogenesis", definition: "The biological process that causes an organism to develop its shape, bridging biophysics and natural forms." }
+        ];
+
+        function saveData() {
+            localStorage.setItem('ayshenur_library_books', JSON.stringify(books));
+            localStorage.setItem('ayshenur_library_glossaries', JSON.stringify(glossaries));
+        }
+
+        function render() {
+            // Render Books
+            const booksGrid = document.getElementById('booksGrid');
+            if (books.length === 0) {
+                booksGrid.innerHTML = '<div class="empty-state">No books recorded yet. Add your first book above.</div>';
+            } else {
+                booksGrid.innerHTML = books.map(b => `
+                    <div class="card">
+                        <div>
+                            <h3>${escapeHtml(b.title)}</h3>
+                            <p><strong>${escapeHtml(b.author)}</strong></p>
+                            <p>${escapeHtml(b.notes || 'No notes provided.')}</p>
+                        </div>
+                        <div class="card-footer">
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Saved</span>
+                            <button class="delete-btn" onclick="deleteBook(${b.id})">Remove</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Render Glossary
+            const glossaryGrid = document.getElementById('glossaryGrid');
+            if (glossaries.length === 0) {
+                glossaryGrid.innerHTML = '<div class="empty-state">No glossary terms recorded yet.</div>';
+            } else {
+                glossaryGrid.innerHTML = glossaries.map(g => `
+                    <div class="card">
+                        <div>
+                            <h3>${escapeHtml(g.word)}</h3>
+                            <p>${escapeHtml(g.definition)}</p>
+                        </div>
+                        <div class="card-footer">
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Etymology</span>
+                            <button class="delete-btn" onclick="deleteTerm(${g.id})">Remove</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function addBook() {
+            const title = document.getElementById('bookTitle').value.trim();
+            const author = document.getElementById('bookAuthor').value.trim();
+            const notes = document.getElementById('bookNotes').value.trim();
+
+            if (!title) {
+                alert('Please enter a book title.');
+                return;
+            }
+
+            books.push({ id: Date.now(), title, author, notes });
+            saveData();
+            render();
+
+            document.getElementById('bookTitle').value = '';
+            document.getElementById('bookAuthor').value = '';
+            document.getElementById('bookNotes').value = '';
+        }
+
+        function deleteBook(id) {
+            books = books.filter(b => b.id !== id);
+            saveData();
+            render();
+        }
+
+        function addTerm() {
+            const word = document.getElementById('termWord').value.trim();
+            const definition = document.getElementById('termDefinition').value.trim();
+
+            if (!word) {
+                alert('Please enter a term.');
+                return;
+            }
+
+            glossaries.push({ id: Date.now(), word, definition });
+            saveData();
+            render();
+
+            document.getElementById('termWord').value = '';
+            document.getElementById('termDefinition').value = '';
+        }
+
+        function deleteTerm(id) {
+            glossaries = glossaries.filter(g => g.id !== id);
+            saveData();
+            render();
+        }
+
+        function exportData() {
+            const data = { books, glossaries };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "ayshenur_library_backup.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (parsed.books && parsed.glossaries) {
+                        books = parsed.books;
+                        glossaries = parsed.glossaries;
+                        saveData();
+                        render();
+                        alert('Library backup successfully loaded and saved!');
+                    } else {
+                        alert('Invalid backup file format.');
+                    }
+                } catch (err) {
+                    alert('Error parsing JSON file.');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            if (tabName === 'books') {
+                document.getElementById('books-tab').classList.add('active');
+                event.currentTarget.classList.add('active');
+            } else {
+                document.getElementById('glossary-tab').classList.add('active');
+                event.currentTarget.classList.add('active');
+            }
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Initial render
+        render();
+    </script>
+</body>
+</html>
+
